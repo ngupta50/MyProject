@@ -1,0 +1,55 @@
+Library file OfflineConvClassifier.py contains the Class ConvClassifier
+ConvClassifier: Is an object that helps train and 
+   test a convolution classifier in off line mode. This is a sub class of 'SaveLoadModel' 
+   object that allows effort-less saving and loading the classifier models.
+   
+Class Instantiation: Following arguments are needed :
+   hiddenLayerSizes: Sizes of the hidden layers conjoined by _. First hidden layer is
+            the convolutional layer, all others are simple feed forward layers. For example
+            "100_50" indicates convolutional layer size of 100 and a feedforward layer size
+             of 50. Default value is "50" 
+   inputSize: Size of the convolution window for words. This is 2*wordContext+1. 
+              default is 5
+   wordVecLen: size of the word embeddings. Default is 10
+   globalfeCount: Number of features, other than the word and char embeddings. These could
+              be features of an example extracted by other exteranl processing. 
+   CCLayerSize: Size of charecter convolution layer. Default is 5.
+   CVectorSize: Embedding size of the charecter representation. default is 2
+   CCContext: Left and right context of the charecter used to calculate charecter convolution
+              window. Default=1, leading to a char convolution window of 3.
+   MaxWordLen: Maximum number of chars in a word. For efficiency reason Charecter convolution is 
+              designed to run on fixed word length only. default=10
+   n_out: Number of outputs. This is equal to the number of classes in the classification task.
+              default=2
+
+Methods:
+   load(LoadModelFile): Loads classification model from a previouly saved model file
+   ready(WordVecFile): Instantiation of a classifier is not complete unless a model is loaded
+			by call to load, or is initialized by call to ready. 'ready' takes a
+                        the word vector file ie DictionaryStem.vec.pcl.gz created by use of
+                        textdata object.
+   save(SaveModelfile): Saves the model prarameters in the specified file
+   fit(TrainDatFile,TrainFeFile,NumEpoch,LearnRate,LearnRateDecay,l2_reg, l1_reg, TestDataFile,TestFeaFile):
+	    Trains them model by running specified number of epochs. After each epoch tests
+            the model on test data if provided and prints on std err both average training 
+            loss and average test errors.
+            TrainDatFile, TestDataFile: .dat.pcl.gz files created by textdata object.
+                         TrainDatFile must be provided. TestDataFile is optional.
+            TrainFeFile, TestFeaFile: File containing features of training and test data
+                          extracted by external means. First line in these files must be
+                          the number of features. Rest of the lines should be sprase
+                          representation saperated by spaces. Each feature is described 
+                          as index:value. If :value is omitted it will be assumed to be a 
+                          binary feature
+	    NumEpoch: Number of training epoch to be run. Notice no mini-batch training is
+                          allowed.
+            LearnRate:Initial learning rate typically 0.01
+            LearnRateDecay: Decay in learning rate after each epoch. typically 0.9
+	    l2_reg, l1_reg: L2 and L1 regularization parameters. Default 0
+    testModel(TestDatFile, TestFeFile): Batch testing of model. 
+    testModelWithThreshold(TestDatFile, TestFeFile, NullClassInd, Thereshold): Test model using
+            Rejection threshold. In this case class distribution is thresholded. Highest 
+            probability Class among all classes with prob higher than this value is considered
+            as hypothesis. If none of the classes have prob above threshold the null class
+            specified by NullClassInd is assigned to the example. Both classification accuracy
+            and average F1 measure of non-null classes is printed.

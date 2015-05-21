@@ -1,0 +1,32 @@
+This library file textdata.py contains textdata class.
+textdata: Helps in preprocessing the text data so that convolution networks can use it
+   efficiently. For training it creates dictionaries for word index and embedding.
+   It also pre-forms the convolution windows for words and charecters that can 
+   be efficiently used by the convolution networks. 
+   For testing it uses the dictionaries created during training to generate similar word 
+   and char convolution windows to test the performance of trained network.
+
+   This is a helper object and can be used as super class of another object to allow 
+   pre-processing of training or test data in single or multiple files. 
+   See nlp-next/lib/DeepLearning/Classification/bin/ProcessClassificationData.py for example
+   of its usage.
+Class instantiation: It takes following arguments to create an instance of textdata object.
+   dictfile: Name of a dictionary file
+   WordContSize: Number of words on left and right to form the convolution window
+   Ccontext: Number of char on left and right to form the char convolution window
+   EmbeddingFile: Memory mapped word embedding file
+   EmbeddingSize: Size of word embedding vectors
+   WSize: Maximum number of chars in a word. For efficiency reason Charecter convolution is 
+          designed to run on fixed word length only. 
+   Create: A binary flag to indicate that dictionaries have to be created, or used
+   nearest: A binary flag indicating to use the index of a dictionary word closest to
+           embedding word vector of an OOVs in test data"
+
+Methods:
+   GetIndex(token, self.dic, self.dictSize): returns index of the token with respect to
+                             the dic. Keeps 2 types of dic a m_word_dict and a m_lab_dict 
+   WordContexts(self, words, charConv=True): takes a list of words to generate indexed 
+                             word and char convolution windows. Char convolution windows 
+			     are generated only if charConv us set to true.
+   saveData(OutputfileStem, DictionaryStem): uses the stems to create OutputfileStem.dat.pcl.gz
+                             DictionaryStem.dic.pcl.gz and DictionaryStem.vec.pcl.gz

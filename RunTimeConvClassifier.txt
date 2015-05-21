@@ -1,0 +1,21 @@
+Library file RunTimeConvClassifier.py contains RunTimeConvClassifier class.
+
+Class Instantiation: Following arguments are required to create an instance 
+   of a RunTimeConvClassifier.
+   Modelfile: Saved model file after training the model
+   DicFileStem: Stem of dictionaries created by textdata object
+   EmbeddingFile: Memory mapped word embeddings used during pre-processing 
+                 the training data
+
+Once an instance of RunTimeConvClassifier is created, its 'hypothesis' method
+can be used to quary for the class of a given text string and possibly the external 
+feature.
+
+Method:
+   hypothesis(inputString, fe, Dist=False): 
+      inputString: Text to be classified
+      fe: space saperated sparse representation of exteral features (needed only
+          if the model was trained using external features. Each feature is described
+          as index:value. If :value is omitted it will be assumed to be a binary feature
+      Dist: Flag, if specified, returns a hash containing probability distribution
+          of all the classes. Otherwise it returns the top class.

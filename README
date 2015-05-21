@@ -1,0 +1,35 @@
+This package contains neural network based text classifier.
+Instead on one hot representation it uses word embeddings 
+and trains them in supervised manner. It uses convolution
+convolution network, and besides word strings allows:
+a. Input of exteranlly extracted binary binary features
+b. Word representation computed from convolution over 
+   charecters of in words.
+
+Data Pre-processing:
+To train and test a classifier model, the text data must 
+be preprocessed so that convolution networks can use it
+efficiently. For training dictionaries for word index 
+and embeddings are created. Convolution windows for words 
+and charecters that can be efficiently used by the convolution 
+networks are pre-formed. For testing dictionaries are used 
+to generate similar word and char convolution windows.
+A python object textdata.py provided the APIs for this purpose.
+ProcessClassificationData.py located in bin dir shows how to
+use this API.
+
+Model training and Testing: A Python object OfflineConvClassifier.py
+provides the API for taining and testing a classifier model off-line.
+This object requires setting of many parameters of the network. 
+'main' program in this file offers an example of how to use 
+this object.
+
+Run-time API: A Python object RunTimeConvClassifier.py provides the API for
+run-time usage of the classifier. 'main' program in this file offers an 
+example of how to use this object.
+
+A complete example of training and testing the classifier is also 
+provided in example directory. See the runExample.ksh for full list of
+commands.
+
+Any question, queries or suggestion please contact ngupta@interactions.net
